@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <form id="form" name="form">
+        <input type="text" id="name" name="name" />
+        <input type="button" id="btn" value="gui">
+    </form>
+    <p id="res"></p>
+    <script type="text/javascript">
+        (function() {
+            const btn = document.getElementById("btn");
+            btn.addEventListener('click', function() {
+                let valueName = document.forms["form"]["name"].value;
+                const hung = {
+                    name: valueName
+                };
+                let x = JSON.stringify(hung);
+                let xmlHttp = new XMLHttpRequest();
+                xmlHttp.onreadystatechange = function() {
+                    if (this.readyState == 4 && this.status == 200) {
+                        let res = JSON.parse(this.responseText);
+                        console.log(res);
+                        document.getElementById("res").innerHTML = `name:${res.name}; age:${res.age}`;
+                    }
+                };
+                xmlHttp.open("POST", "res.php", true);
+                xmlHttp.setRequestHeader("Content-type", "application/x-www-form-urlencoded");
+                xmlHttp.send(`x=${x}`);
+            });
+        })();
+    </script>
+</body>
+
+</html>
